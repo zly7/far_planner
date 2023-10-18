@@ -54,7 +54,7 @@ struct Polygon
 typedef std::shared_ptr<Polygon> PolygonPtr;
 typedef std::vector<PolygonPtr> PolygonStack;
 
-struct NavNode {
+struct NavNode { //最核心的搜索点
     NavNode() = default;
     std::size_t id;
     Point3D position;

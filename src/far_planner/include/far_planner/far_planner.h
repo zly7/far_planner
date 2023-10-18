@@ -42,12 +42,12 @@ public:
 
 private:
     ros::NodeHandle nh;
-    ros::Subscriber reset_graph_sub_, joy_command_sub_, update_command_sub_;
-    ros::Subscriber odom_sub_, terrain_sub_, terrain_local_sub_, scan_sub_, waypoint_sub_;
+    ros::Subscriber reset_graph_sub_, joy_command_sub_, update_command_sub_;  // 这个应该是手柄或者RVIZ发过来的
+    ros::Subscriber odom_sub_, terrain_sub_, terrain_local_sub_, scan_sub_, waypoint_sub_; //terrain_sub_ 用于订阅地形或地图数据,scan_sub_,用于订阅激光扫描或雷达扫描数据
     ros::Subscriber read_command_sub_, save_command_sub_; // only use for terminal formatting
     ros::Publisher  goal_pub_, boundary_pub_;
-    ros::Publisher  dynamic_obs_pub_, surround_free_debug_, surround_obs_debug_;
-    ros::Publisher  scan_grid_debug_, new_PCL_pub_, terrain_height_pub_;
+    ros::Publisher  dynamic_obs_pub_, surround_free_debug_, surround_obs_debug_;  
+    ros::Publisher  scan_grid_debug_, new_PCL_pub_, terrain_height_pub_;  //用于发布新的点云数据（Point Cloud Library）,
     ros::Publisher  runtime_pub_, planning_time_pub_, traverse_time_pub_, reach_goal_pub_;
 
     ros::Timer planning_event_;

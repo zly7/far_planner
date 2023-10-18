@@ -84,7 +84,7 @@ bool DynamicGraph::ExtractGraphNodes(const CTNodeStack& new_ctnodes) {
     if (new_nodes_.empty()) return false;
     else return true;
 }
-
+//下面这个函数应该是最重要的函数之一
 void DynamicGraph::UpdateNavGraph(const NodePtrStack& new_nodes,
                                   const bool& is_freeze_vgraph,
                                   NodePtrStack& clear_node) 
@@ -748,7 +748,7 @@ bool DynamicGraph::IsActivateNavNode(const NavNodePtr& node_ptr) {
     return false;
 }
 
-void DynamicGraph::UpdateGlobalNearNodes() {
+void DynamicGraph::UpdateGlobalNearNodes() { //这个说白了就是对节点进行分类
     /* update nearby navigation nodes stack --> near_nav_nodes_ */
     near_nav_nodes_.clear(), wide_near_nodes_.clear(), extend_match_nodes_.clear();
     margin_near_nodes_.clear(); internav_near_nodes_.clear(), surround_internav_nodes_.clear();

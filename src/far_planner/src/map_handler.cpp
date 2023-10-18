@@ -139,7 +139,7 @@ void MapHandler::SetMapOrigin(const Point3D& ori_robot_pos) {
     if (FARUtil::IsDebug) ROS_INFO("MH: Global Cloud Map Grid Initialized.");
 }
 
-void MapHandler::UpdateRobotPosition(const Point3D& odom_pos) {
+void MapHandler::UpdateRobotPosition(const Point3D& odom_pos) {//这里是对于neighbor有更新
     if (!is_init_) this->SetMapOrigin(odom_pos);
     robot_cell_sub_ = world_obs_cloud_grid_->Pos2Sub(Eigen::Vector3d(odom_pos.x, odom_pos.y, odom_pos.z));
     // Get neighbor indices

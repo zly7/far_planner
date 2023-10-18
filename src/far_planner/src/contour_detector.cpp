@@ -39,7 +39,7 @@ void ContourDetector::BuildTerrainImgAndExtractContour(const NavNodePtr& odom_no
     this->ExtractContourFromImg(img_mat_, refined_contours_, realworl_contour);
 }
 
-void ContourDetector::UpdateImgMatWithCloud(const PointCloudPtr& pc, cv::Mat& img_mat) {
+void ContourDetector::UpdateImgMatWithCloud(const PointCloudPtr& pc, cv::Mat& img_mat) {//这里的核心函数。
     int row_idx, col_idx, inf_row, inf_col;
     const std::vector<int> inflate_vec{-1, 0, 1};
     for (const auto& pcl_p : pc->points) {
@@ -110,7 +110,8 @@ void ContourDetector::ShowCornerImage(const cv::Mat& img_mat,
     cv::waitKey(30);
 }
 
-void ContourDetector::ExtractRefinedContours(const cv::Mat& imgIn,
+
+void ContourDetector::ExtractRefinedContours(const cv::Mat& imgIn,  // 好像在这个函数这里就是提取出了ccontour
                                             std::vector<CVPointStack>& refined_contours) 
 { 
 

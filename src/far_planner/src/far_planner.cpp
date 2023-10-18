@@ -164,13 +164,13 @@ void FARMaster::Loop() {
       std::cout<<"    "<<"Local V-Graph Updated. Number of local vertices: "<<ContourGraph::contour_graph_.size()<<std::endl;
     }
     /* Adjust heights with terrain */
-    map_handler_.AdjustCTNodeHeight(ContourGraph::contour_graph_);
+    map_handler_.AdjustCTNodeHeight(ContourGraph::contour_graph_);  //这个graph是很多点
     map_handler_.AdjustNodesHeight(nav_graph_);
     // Truncate for local range nodes
     graph_manager_.UpdateGlobalNearNodes();
     near_nav_graph_ = graph_manager_.GetExtendLocalNode();
     // Match near nav nodes with contour
-    contour_graph_.MatchContourWithNavGraph(nav_graph_, near_nav_graph_, new_ctnodes_);
+    contour_graph_.MatchContourWithNavGraph(nav_graph_, near_nav_graph_, new_ctnodes_);//new_ctnodes_是新出现在contour_graph的节点
     if (master_params_.is_visual_opencv) {
       FARUtil::ConvertCTNodeStackToPCL(new_ctnodes_, new_vertices_ptr_);
       cv::Mat cloud_img = contour_detector_.GetCloudImgMat();
@@ -234,7 +234,7 @@ void FARMaster::Loop() {
   }
 }
 
-void FARMaster::PlanningCallBack(const ros::TimerEvent& event) {
+void FARMaster::PlanningCallBack(const ros::TimerEvent& event) { //核心相当于是这个函数
   if (!is_graph_init_) return;
   const NavNodePtr goal_ptr = graph_planner_.GetGoalNodePtr();
   if (goal_ptr == NULL) {
@@ -524,7 +524,7 @@ void FARMaster::LoadROSParams() {
   scan_params_.voxel_size    = master_params_.voxel_dim;
   scan_params_.ceil_height   = map_params_.floor_height;
 
-  // contour detector params
+  // contour detector params 从ROS中心的参数服务器获取
   nh.param<float>(cdetect_prefix       + "resize_ratio",       cdetect_params_.kRatio, 5.0);
   nh.param<int>(cdetect_prefix         + "filter_count_value", cdetect_params_.kThredValue, 5);
   nh.param<bool>(cdetect_prefix        + "is_save_img",        cdetect_params_.is_save_img, false);

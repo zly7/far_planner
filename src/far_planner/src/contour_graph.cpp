@@ -20,7 +20,7 @@ void ContourGraph::Init(const ContourGraphParams& params) {
     ContourGraph::global_contour_set_.clear();
     ContourGraph::boundary_contour_set_.clear();
 }
-
+//下面这个函数就是把之前抽取到的多边体给它push到实际的图中
 void ContourGraph::UpdateContourGraph(const NavNodePtr& odom_node_ptr,
                                       const std::vector<std::vector<Point3D>>& filtered_contours) {
     odom_node_ptr_ = odom_node_ptr;
@@ -31,11 +31,11 @@ void ContourGraph::UpdateContourGraph(const NavNodePtr& odom_node_ptr,
         this->AddPolyToContourPolygon(new_poly_ptr);
     }
     ContourGraph::UpdateOdomFreePosition(odom_node_ptr_, FARUtil::free_odom_p);
-    for (const auto& poly_ptr : ContourGraph::contour_polygons_) {
+    for (const auto& poly_ptr : ContourGraph::contour_polygons_) { // ContourGraph::contour_polygons_ 这个显然是在上面更新的
         poly_ptr->is_robot_inside = FARUtil::PointInsideAPoly(poly_ptr->vertices, FARUtil::free_odom_p);
         CTNodePtr new_ctnode_ptr = NULL;
         if (poly_ptr->is_pillar) {
-            Point3D mean_p = FARUtil::AveragePoints(poly_ptr->vertices);
+            Point3D mean_p = FARUtil::AveragePoints(poly_ptr->vertices); // 这个感觉就非常重要，如果是柱体缩成一个点
             this->CreateCTNode(mean_p, new_ctnode_ptr, poly_ptr, true);
             this->AddCTNodeToGraph(new_ctnode_ptr);
         } else {
@@ -379,7 +379,7 @@ void ContourGraph::CreateCTNode(const Point3D& pos, CTNodePtr& ctnode_ptr, const
     ctnode_ptr->is_ground_associate = false;
     ctnode_ptr->nav_node_id = 0;
     ctnode_ptr->poly_ptr = poly_ptr;
-    ctnode_ptr->free_direct = is_pillar ? NodeFreeDirect::PILLAR : NodeFreeDirect::UNKNOW;
+    ctnode_ptr->free_direct = is_pillar ? NodeFreeDirect::PILLAR : NodeFreeDirect::UNKNOW;  // 这个非常重要，在这里赋值
     ctnode_ptr->connect_nodes.clear();
 }
 
